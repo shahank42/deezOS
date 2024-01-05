@@ -11,12 +11,9 @@ fn panic(info: &PanicInfo) -> ! {
     loop {}
 }
 
-static HELLO: &[u8] = b"deez OS";
-
 #[no_mangle] // Don't mangle the name of this function, Linux calling conventions look for a _start
-// entry point by defualt
+             // entry point by defualt
 pub extern "C" fn _start() -> ! {
     println!("Hello {}", "world");
-    panic!("panik baby");
     loop {}
 }
