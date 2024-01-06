@@ -5,27 +5,26 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::panic::PanicInfo;
-use deez_os::println;
 
-#[cfg(not(test))]
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    println!("{}", info);
+#[no_mangle]
+pub extern "C" fn _start() -> ! {
+    test_main();
+
     loop {}
 }
 
-#[cfg(test)]
+fn test_runner(tests: &[&dyn Fn()]) {
+    unimplemented!();
+}
+
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     deez_os::test_panic_handler(info)
 }
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
-    println!("Welcome to {}", "deezOS");
+use deez_os::println;
 
-    #[cfg(test)]
-    test_main();
-
-    loop {}
+#[test_case]
+fn test_println() {
+    println!("test_println output");
 }
